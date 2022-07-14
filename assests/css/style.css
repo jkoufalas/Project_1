@@ -1,1 +1,27 @@
-/* This is the CSS file */
+/* Universal selector */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+.navbar{
+    background-color: bisque;
+}
+
+.column{
+    height: 200px;
+}
+
+.sectionDiv{
+    margin-top: 50px;
+}
+
+.columns{
+    margin-bottom: 200px;
+}
+
+.columns:not(:last-child) {
+    /* margin-bottom: calc(1.5rem - 0.75rem); */
+    margin-bottom: 200px;
+}
