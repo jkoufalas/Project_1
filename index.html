@@ -1,40 +1,111 @@
-<!-- This is the index.html file -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="Description" content="Enter your description here" />
-  <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
-    />
-  <title>Whats On</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="./assests/css/style.css" />
 </head>
 
 <body>
-    <button class="btn btn-primary" id="newRelease">New Release</button>
-    <form id="search-form">
-        <div class="form-group ui-widget">
-          <label for="citySearch" class="h4 font-weight-bold">Search</label>
-          <input type="text" class="form-control" id="citySearch">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"> -->
+                What is On!!!
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-        <button class="btn btn-primary" id="submitSearch">Search</button>
-      </form>
-    <section class="container" id="mainScreen">
 
-        <div class="card" style="width: 18rem; height: 18rem;">
-            
-          </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item">
+                    Now Playing
+                </a>
+                <a class="navbar-item">
+                    Favorites
+                </a>
 
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Now Playing
+            </h1>
+            <div class="sectionDiv">
+                <!-- <div class="columns">
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="#">
+                            <img src="./assests/images/example-movie-image.jpeg">
+                        </a>
+                    </div>
+                </div> -->
+                <div class="columns is-multiline" id="poster">
+                    <div class="column is-one-quarter-desktop is-half-tablet">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-3by2">
+                                    <img src="https://unsplash.it/300/200/?random&pic=1" alt="">
+                                </figure>
+                                <div class="card-content is-overlay is-clipped">
+                                    <span class="tag is-info">
+                                        Movie 1
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
 
     </section>
-
-
 </body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src= "./assests/js/script.js"></script>
-</html> 
+
+</html>
