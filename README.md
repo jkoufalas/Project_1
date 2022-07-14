@@ -15,13 +15,11 @@ SO THAT I can decide what movies I am going to watch
 ## Acceptance Criteria
 
 ```
-GIVEN a display of popular movies with images/icons 
+GIVEN I want an app that will allow me to search popular movies 
 WHEN I search for a movie
 THEN I am presented with a picture icon about the movie and it's name
 WHEN I select one of the movies displayed from the search
-THEN I am presented with information about cinema session times, review scores and a synopsis of the movie
-WHEN I view the review score
-THEN I am presented with the average imdb review score for that movie
+THEN I am presented with information such as a synopsis of the movie
 WHEN I search for movies by themes/genres
 THEN I am presented with movies that match the theme of the search
 
