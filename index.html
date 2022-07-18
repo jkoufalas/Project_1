@@ -27,9 +27,17 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item">
+
+                <a class="navbar-item" id="nowShowing">
                     Now Playing
                 </a>
+                <a class="navbar-item" id="Popular">
+                    Popular
+                </a>
+                <a class="navbar-item" id="TopRated">
+                    Top Rated
+                </a>
+
                 <a class="navbar-item">
                     Favorites
                 </a>
@@ -43,7 +51,8 @@
                 Now Playing
             </h1>
             <div class="sectionDiv">
-                <div class="columns is-multiline">
+
+                <div class="columns is-multiline" id="outLayer">
                     <div class="column is-one-quarter-desktop is-half-tablet">
                         <div class="card">
                             <a href="#">
@@ -156,5 +165,9 @@
 
     </section>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src= "./assests/js/script.js"></script>
+
 
 </html>
