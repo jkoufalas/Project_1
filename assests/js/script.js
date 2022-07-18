@@ -22,6 +22,7 @@ function buttonClickNewRelease(event) {
         var outerLayer = document.createElement("div");
         var posterPath = 'https://image.tmdb.org/t/p/w500'+data.results[i].poster_path;
         outerLayer.classList.add('columns', 'is-multiline');
+        console.log(posterPath);
 
         var cardLayer = document.createElement("div");
         cardLayer.classList.add('column','is-one-quarter-desktop','is-half-tablet');
@@ -38,8 +39,8 @@ function buttonClickNewRelease(event) {
         var cardImg = document.createElement("img");
         cardImg.setAttribute('src', posterPath);
 
-
-        cardImg.appendChild(cardFig);
+        cardFig.appendChild(cardImg);
+        cardImage.appendChild(cardFig);
         cardLayerInner.appendChild(cardImage);
         cardLayer.appendChild(cardLayerInner);
         outerLayer.appendChild(cardLayer);
