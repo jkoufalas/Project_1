@@ -4,6 +4,9 @@
     padding: 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-size: revert;
+}
 
 .navbar{
     background-color: bisque;
@@ -17,7 +20,25 @@
     margin-bottom: 200px;
 }
 
-.columns:not(:last-child) {
-    /* margin-bottom: calc(1.5rem - 0.75rem); */
-    margin-bottom: 200px;
+.modal a.close-modal {
+    top: 5px;
+    right: 5px;
+}
+
+#ex1{
+    /* display: flex; */
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: fit-content;
+    max-width: 900px;
+}
+
+.modal {
+    text-align: center;
+}
+
+body.modal-open {
+    overflow: hidden;
 }
