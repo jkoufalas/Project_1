@@ -1,8 +1,14 @@
 // This is the javascript file
-var mainScreenDOM = document.querySelector("#outerClass");
-var mainScreenDOMJQ = $('#outerClass');
+var mainScreenDOM = document.querySelector("#outLayer");
+var mainScreenDOMJQ = $('#outLayer');
 
 var searchNewReleaseList = $('#nowShowing');
+var searchPopularList = $('#Popular');
+var searchTopRatedList = $('#TopRated');
+
+var PopularPageNum;
+var topRatedPageNum;
+
 
 
 
@@ -16,13 +22,48 @@ function buttonClickNewRelease(event) {
   })
   .then(function (data) {
     console.log(data);
-    mainScreenDOMJQ.empty();
-    for( var i = 0 ; i < data.results.length; i++){
-        var outerLayer = document.createElement("div");
-        var posterPath = 'https://image.tmdb.org/t/p/w500'+data.results[i].poster_path;
-        outerLayer.classList.add('columns', 'is-multiline');
-        console.log(posterPath);
+    displayMovieList(data);
+  });
+};
 
+function buttonClickPopular(event) {
+  var appID = 'edae2dbf4933f27205a897a516b34101';
+  var pageNum = 1;
+  var apiUrl = 'https://api.themoviedb.org/3/movie/popular?api_key='+ appID + '&language=en-US&page='+ pageNum;
+  
+fetch(apiUrl)
+.then(function (response) {
+  return response.json();
+})
+.then(function (data) {
+  console.log(data);
+  displayMovieList(data);
+});
+};
+
+function buttonClickTopRated() {
+  console.log("data");
+
+  var appID = 'edae2dbf4933f27205a897a516b34101';
+  //var pageNum = 1;
+  var apiUrl = 'https://api.themoviedb.org/3/movie/top_rated?api_key='+ appID + '&language=en-US&page='+ pageNum;
+  
+fetch(apiUrl)
+.then(function (response) {
+  return response.json();
+})
+.then(function (data) {
+  console.log(data);
+  displayMovieList(data);
+});
+};
+
+var displayMovieList = function (data){
+  mainScreenDOMJQ.empty();
+    for( var i = 0 ; i < data.results.length; i++){
+
+        var posterPath = 'https://image.tmdb.org/t/p/w500'+data.results[i].poster_path;
+ 
         var cardLayer = document.createElement("div");
         cardLayer.classList.add('column','is-one-quarter-desktop','is-half-tablet');
 
@@ -41,40 +82,18 @@ function buttonClickNewRelease(event) {
         var cardImg = document.createElement("img");
         cardImg.setAttribute('src', posterPath);
 
-        var cardFavourites = document.createElement("div");
-        cardFavourites.classList.add('card-content', 'is-overlay', 'is-clipped');
-
-        var cardSpan = document.createElement("span");
-        cardSpan.classList.add('tag', 'is-info');
-        cardSpan.textContent = data.results[i].title;
-
-        var cardFooter = document.createElement("footer");
-        cardFooter.classList.add('card-footer');
-
-        var cardFooterLink = document.createElement("a");
-        cardFooterLink.classList.add('card-footer-item');
-
-
-
-        cardFooter.appendChild(cardFooterLink);
-        
-        
-        cardFooterLink.appendChild(cardSpan);
-
-
-
         cardFig.appendChild(cardImg);
         cardImage.appendChild(cardFig);
         cardLink.appendChild(cardImage);
         cardLayerInner.appendChild(cardLink);
-        cardLayerInner.appendChild(cardFooter);
         cardLayer.appendChild(cardLayerInner);
-        outerLayer.appendChild(cardLayer);
-        mainScreenDOM.appendChild(outerLayer);
+        mainScreenDOM.appendChild(cardLayer);
     }
-  });
+
 };
 
 
 
 searchNewReleaseList.on('click', buttonClickNewRelease);
+searchPopularList.on('click', buttonClickPopular);
+searchTopRatedList.on('click', buttonClickTopRated);
