@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="./assests/css/style.css" />
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+                <!-- <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"> -->
+                What is On!!!
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+
+                <a class="navbar-item" id="nowShowing">
+                    Now Playing
+                </a>
+                <a class="navbar-item" id="Popular">
+                    Popular
+                </a>
+                <a class="navbar-item" id="TopRated">
+                    Top Rated
+                </a>
+
+                <a class="navbar-item">
+                    Favorites
+                </a>
+                <input class="input" id="searchBar" type="text" placeholder="Search for a Movie">
+
+
+            </div>
+        </div>
+    </nav>
+    <!-- Modal HTML embedded directly into document -->
+    <!-- <div id="ex1" class="modal">
+        <div class="columns">
+            <div class="column">
+                <figure class="image">
+                    <img id="modalImage" src="https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg" alt="">
+                </figure>
+                <footer class="card-footer">
+                    <a id="modalFavorites" class="card-footer-item">
+                        Add to Favorites
+                    </a>
+                </footer>
+            </div>
+            <div class="column">
+                <h1 id="modalMoviesTitle">Fight Club</h1>
+                <h3 id="modalMovieDesc">A ticking-time-bomb insomniac and a slippery soap salesman channel primal male
+                    aggression into a
+                    shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in
+                    every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.
+                </h3>
+                <h3 id="modalMovieGenre">Genre: Drama</h3>
+                <h3 id="modalMoviePop">Popularity: 0.5</h3>
+                <a href="#" rel="modal:close">Close</a>
+            </div>
+        </div>
+    </div> -->
+    <!-- End of Modal HTML-->
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Now Playing
+            </h1>
+            <div class="sectionDiv">
+
+                <div class="columns is-multiline" id="outLayer">
+                    <div class="column is-one-quarter-desktop is-half-tablet">
+                        <div class="card">
+                            <a href="#">
+                                <div class="card-image">
+
+                                    <figure class="image is-3by2">
+                                        <img src="https://unsplash.it/300/200/?random&pic=1" alt="">
+                                    </figure>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter-desktop is-half-tablet">
+                        <div class="card">
+                            <a href="#">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="https://unsplash.it/300/200/?random&pic=2" alt="">
+                                    </figure>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter-desktop is-half-tablet">
+                        <div class="card">
+                            <a href="#">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="https://unsplash.it/300/200/?random&pic=3" alt="">
+                                    </figure>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter-desktop is-half-tablet">
+                        <div class="card">
+                            <a href="#">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="https://unsplash.it/300/200/?random&pic=4" alt="">
+                                    </figure>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter-desktop is-half-tablet">
+                        <div class="card">
+                            <a href="#">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="https://unsplash.it/300/200/?random&pic=4" alt="">
+                                    </figure>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="column is-one-quarter-desktop is-half-tablet">
+                        <div class="card">
+                            <a href="#">
+                                <div class="card-image">
+                                    <figure class="image is-3by2">
+                                        <img src="https://unsplash.it/300/200/?random&pic=4" alt="">
+                                    </figure>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="js-modal-trigger" data-target="modal-js-example">
+                        Open JS example modal
+                    </button>
+                </div>
+            </div>
+
+
+    </section>
+    <div id="modal-js-example" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title"></p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="columns">
+                    <div class="column">
+                        <figure class="image">
+                            <img id="modalImage" src="https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg" alt="">
+                        </figure>
+                        <footer class="card-footer">
+                            <a id="modalFavorites" class="card-footer-item">
+                                <i class="far fa-heart"></i>
+                            </a>
+                            <!-- <a href="#"><i class="fa-light fa-heart"></i> -->
+                        </footer>
+                    </div>
+                    <div class="column">
+                        <h1 id="modalMoviesTitle">Fight Club</h1>
+                        <h3 id="modalMovieDesc">A ticking-time-bomb insomniac and a slippery soap salesman channel primal male
+                            aggression into a
+                            shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in
+                            every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.
+                        </h3>
+                        <p> <br /> </p>
+                        <h3 id="modalMovieGenre"><span id="modalMovieGenreSpan">Genre: </span> Drama</h3>
+                        <p> <br /> </p>
+                        <h3 id="modalMoviePop"><span id="modalMoviePopSpan">Popularity: </span>0.5</h3>
+                        <!-- <a href="#" rel="modal:close">Close</a> -->
+                    </div>
+                </div>
+            </section>
+            <!-- <footer class="modal-card-foot">
+                <button class="button is-success">Save changes</button>
+                <button class="button">Cancel</button>
+            </footer> -->
+        </div>
+    </div>
+
+    <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="./assests/js/script.js"></script>
+</body>
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+<script src="https://kit.fontawesome.com/934b9b237a.js" crossorigin="anonymous"></script>
+<script src="./assests/js/script.js"></script>
+
+
+</html>

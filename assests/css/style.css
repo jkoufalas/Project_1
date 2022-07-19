@@ -1,1 +1,61 @@
-/* This is the CSS file */
+/* Universal selector */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: revert;
+}
+
+.navbar{
+    background-color: bisque;
+}
+
+.sectionDiv{
+    margin-top: 50px;
+}
+
+.columns{
+    margin-bottom: 200px;
+}
+
+.modal a.close-modal {
+    top: 5px;
+    right: 5px;
+}
+
+#ex1{
+    /* display: flex; */
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: fit-content;
+    max-width: 900px;
+}
+
+.modal {
+    text-align: center;
+}
+
+.fa-heart:before {
+    font-size: xxx-large;
+    color: black;
+}
+
+#searchBar{
+    margin-top: 5px;
+    position: absolute;
+    right: 50px;
+    max-width: 200px;
+}
+
+#modalMovieGenreSpan, #modalMoviePopSpan{
+    font-weight: bold;
+}
+
+body.modal-js-example.modal.is-active {
+    overflow: hidden;
+    position: fixed;
+}
