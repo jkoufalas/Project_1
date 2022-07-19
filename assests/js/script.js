@@ -5,12 +5,22 @@ var mainScreenDOMJQ = $('#outLayer');
 var searchNewReleaseList = $('#nowShowing');
 var searchPopularList = $('#Popular');
 var searchTopRatedList = $('#TopRated');
-
-var PopularPageNum;
-var topRatedPageNum;
-
+var searchList = $('#search');
+var favouritesList = $('#favourites');
 
 
+
+var favoriteList;
+
+
+function init() {
+  favoriteList = [];
+  favoriteList.push(238);
+  favoriteList.push(438148);
+  favoriteList.push(616037);
+  favoriteList.push(361743);
+  favoriteList.push(453395);
+};
 
 function buttonClickNewRelease(event) {
     var appID = 'edae2dbf4933f27205a897a516b34101';
@@ -26,7 +36,7 @@ function buttonClickNewRelease(event) {
   });
 };
 
-function buttonClickPopular(event) {
+function buttonClickPopular(event, pageNum) {
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var pageNum = 1;
   var apiUrl = 'https://api.themoviedb.org/3/movie/popular?api_key='+ appID + '&language=en-US&page='+ pageNum;
@@ -41,7 +51,7 @@ fetch(apiUrl)
 });
 };
 
-function buttonClickTopRated() {
+function buttonClickTopRated(event, pageNum) {
   console.log("data");
 
   var appID = 'edae2dbf4933f27205a897a516b34101';
@@ -58,14 +68,87 @@ fetch(apiUrl)
 });
 };
 
+function buttonSearch(event, title) {
+  console.log("data");
+
+  var appID = 'edae2dbf4933f27205a897a516b34101';
+  var pageNum = 1;
+  var apiUrl = 'https://api.themoviedb.org/3/search/movie?api_key='+ appID + '&language=en-US&page='+ pageNum + '&query=' + title;
+
+fetch(apiUrl)
+.then(function (response) {
+  return response.json();
+})
+.then(function (data) {
+  console.log(data);
+  displayMovieList(data);
+});
+};
+
+function buttonSearchFavourites(event) {
+  mainScreenDOMJQ.empty();
+  for( var i = 0 ; i < favoriteList.length; i++){
+    var appID = 'edae2dbf4933f27205a897a516b34101';
+    var apiUrl = 'https://api.themoviedb.org/3/movie/' + favoriteList[i] + '?api_key='+ appID + '&language=en-US';
+  
+    fetch(apiUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+
+      var posterPath = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
+ 
+      var cardLayer = document.createElement("div");
+      cardLayer.classList.add('column','is-one-quarter-desktop','is-half-tablet');
+      cardLayer.setAttribute('movie-id', data.id);
+
+      var cardLayerInner = document.createElement("div");
+      cardLayerInner.classList.add('card');
+
+      var cardLink = document.createElement("a");
+      cardLink.setAttribute('href', "#");
+
+      var cardImage = document.createElement("div");
+      cardImage.classList.add('card-image');
+
+      var cardFig = document.createElement("figure");
+      cardFig.classList.add('image','is-5by2');
+
+      var cardImg = document.createElement("img");
+      cardImg.setAttribute('src', posterPath);
+
+      cardFig.appendChild(cardImg);
+      cardImage.appendChild(cardFig);
+      cardLink.appendChild(cardImage);
+      cardLayerInner.appendChild(cardLink);
+      cardLayer.appendChild(cardLayerInner);
+      mainScreenDOM.appendChild(cardLayer);
+      
+
+
+
+
+    });
+  }
+    
+
+  }
+
+
 var displayMovieList = function (data){
   mainScreenDOMJQ.empty();
     for( var i = 0 ; i < data.results.length; i++){
-
+        //this skips movies with no posters
+        if(data.results[i].poster_path == null){
+          continue;
+        }
         var posterPath = 'https://image.tmdb.org/t/p/w500'+data.results[i].poster_path;
  
         var cardLayer = document.createElement("div");
         cardLayer.classList.add('column','is-one-quarter-desktop','is-half-tablet');
+        cardLayer.setAttribute('movie-id', data.id);
 
         var cardLayerInner = document.createElement("div");
         cardLayerInner.classList.add('card');
@@ -89,11 +172,14 @@ var displayMovieList = function (data){
         cardLayer.appendChild(cardLayerInner);
         mainScreenDOM.appendChild(cardLayer);
     }
-
 };
+
+init();
 
 
 
 searchNewReleaseList.on('click', buttonClickNewRelease);
-searchPopularList.on('click', buttonClickPopular);
-searchTopRatedList.on('click', buttonClickTopRated);
+searchPopularList.on('click', event =>  buttonClickPopular(event, 1));
+searchTopRatedList.on('click', event => buttonClickTopRated(event, 1));
+searchList.on('click', event => buttonSearch(event, "minion"));
+favouritesList.on('click', buttonSearchFavourites)
