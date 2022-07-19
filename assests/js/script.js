@@ -116,9 +116,6 @@ fetch(apiUrl)
 function buttonOpenModal(event) {
   var element = event.target;
   var movieNum = element.getAttribute("movie-id");
-  console.log('--'+movieNum);
-
-  
   
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var apiUrl = 'https://api.themoviedb.org/3/movie/'+ movieNum +'?api_key='+ appID + '&language=en-US';
@@ -128,7 +125,6 @@ fetch(apiUrl)
   return response.json();
 })
 .then(function (data) {
-  console.log(data);
   var posterPath = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
   modalMovieImageItm.setAttribute('src', posterPath);
 
@@ -145,17 +141,14 @@ fetch(apiUrl)
   modalMoviePopItm.textContent = data.vote_average;
 
 if(favoriteList.includes(parseInt(movieNum,10))){
-  console.log("In Favourites");
   addToFavouritesItm.text("Remove from Favourites");
 
 }else{
-  console.log("Not In Favourites");
   addToFavouritesItm.text("Add to Favourites");
 }
   
   
 
-  //console.log(data);
   openMovieModal.modal('open');
 });
 
