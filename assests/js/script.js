@@ -9,29 +9,24 @@ var searchList = $('#search-form');
 var favouritesList = $('#favourites');
 var openMovieModal = $('#ex1');
 
+
 var modalMovieImageItm = document.querySelector("#modalMovieImage");
 var modalMovieTitleItm = document.querySelector("#modalMoviesTitle");
 var modalMovieDescItm = document.querySelector("#modalMovieDesc");
 var modalMovieGenreItm = document.querySelector("#modalMovieGenre");
 var modalMoviePopItm = document.querySelector("#modalMoviePop");
+var pageTitleItm = document.querySelector("#pageTitle");
 var addToFavouritesItm = $('#addToFavourites');
-
-
-
-
-
-
-
 var favoriteList;
+var localStorageHistory = [];
 
 
 function init() {
   favoriteList = [];
-  favoriteList.push(238);
-  favoriteList.push(438148);
-  favoriteList.push(616037);
-  favoriteList.push(361743);
-  favoriteList.push(453395);
+  var localStorageHistory = JSON.parse(localStorage.getItem("movieFavourites"));
+  if(!!localStorageHistory){
+    favoriteList = [...localStorageHistory];
+  }
 };
 
 function buttonClickNewRelease(event) {
@@ -44,6 +39,7 @@ function buttonClickNewRelease(event) {
   })
   .then(function (data) {
     displayMovieList(data);
+    pageTitleItm.textContent = "New Releases";
   });
 };
 
@@ -57,14 +53,12 @@ fetch(apiUrl)
   return response.json();
 })
 .then(function (data) {
-  console.log(data);
   displayMovieList(data);
+  pageTitleItm.textContent = "Popular Movies";
 });
 };
 
 function buttonClickTopRated(event, pageNum) {
-  console.log("data");
-
   var appID = 'edae2dbf4933f27205a897a516b34101';
   //var pageNum = 1;
   var apiUrl = 'https://api.themoviedb.org/3/movie/top_rated?api_key='+ appID + '&language=en-US&page='+ pageNum;
@@ -75,6 +69,7 @@ fetch(apiUrl)
 })
 .then(function (data) {
   displayMovieList(data);
+  pageTitleItm.textContent = "Top Rated Movies";
 });
 };
 
@@ -82,29 +77,17 @@ function addMovieToFavourites(event) {
   var element = event.target;
   var movieNum = element.getAttribute("movie-id");
 
-  console.log('--------');
-  console.log(movieNum);
-  console.log(favoriteList);
-  console.log('--------');
-
- 
     
     if(favoriteList.includes(parseInt(movieNum,10))){
       favoriteList.splice(favoriteList.indexOf(parseInt(movieNum,10)), 1);
       addToFavouritesItm.text("Add to Favourites");
-      console.log('Here');
 
     }else{
       addToFavouritesItm.text("Remove from Favourites");
       favoriteList.push(parseInt(movieNum,10));
-      console.log('Here1');
+      localStorage.setItem("movieFavourites", JSON.stringify(favoriteList));
+
     }
-    console.log(favoriteList);
-    console.log('********');
-
-    
-
-  
 
 };
 
@@ -125,6 +108,8 @@ fetch(apiUrl)
 })
 .then(function (data) {
   displayMovieList(data);
+  pageTitleItm.textContent = "Search for Movies - \""+ title +"\"";
+
 });
 };
 
@@ -223,6 +208,8 @@ function buttonSearchFavourites(event) {
 
 
     });
+    pageTitleItm.textContent = "Your Favourite Movies";
+
   }
     
 
