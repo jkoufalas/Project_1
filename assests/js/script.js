@@ -5,12 +5,12 @@ var mainScreenDOMJQ = $('#outLayer');
 var searchNewReleaseList = $('#nowShowing');
 var searchPopularList = $('#Popular');
 var searchTopRatedList = $('#TopRated');
-var searchList = $('#search');
+var searchList = $('#search-form');
 var favouritesList = $('#favourites');
 var openMovieModal = $('#ex1');
 
 var modalMovieImageItm = document.querySelector("#modalMovieImage");
-var modalMovieTitleItm = document.querySelector("#modalMovieTitle");
+var modalMovieTitleItm = document.querySelector("#modalMoviesTitle");
 var modalMovieDescItm = document.querySelector("#modalMovieDesc");
 var modalMovieGenreItm = document.querySelector("#modalMovieGenre");
 var modalMoviePopItm = document.querySelector("#modalMoviePop");
@@ -79,16 +79,41 @@ fetch(apiUrl)
 };
 
 function addMovieToFavourites(event) {
-  console.log("data");
+  var element = event.target;
+  var movieNum = element.getAttribute("movie-id");
 
-  var appID = 'edae2dbf4933f27205a897a516b34101';
-  //var pageNum = 1;
-  var apiUrl = 'https://api.themoviedb.org/3/movie/top_rated?api_key='+ appID + '&language=en-US&page='+ pageNum;
+  console.log('--------');
+  console.log(movieNum);
+  console.log(favoriteList);
+  console.log('--------');
+
+ 
+    
+    if(favoriteList.includes(parseInt(movieNum,10))){
+      favoriteList.splice(favoriteList.indexOf(parseInt(movieNum,10)), 1);
+      addToFavouritesItm.text("Add to Favourites");
+      console.log('Here');
+
+    }else{
+      addToFavouritesItm.text("Remove from Favourites");
+      favoriteList.push(parseInt(movieNum,10));
+      console.log('Here1');
+    }
+    console.log(favoriteList);
+    console.log('********');
+
+    
+
   
 
 };
 
 function buttonSearch(event, title) {
+
+  if(!title){
+    return;
+  }
+  title = title.trim();
 
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var pageNum = 1;
@@ -106,6 +131,7 @@ fetch(apiUrl)
 function buttonOpenModal(event) {
   var element = event.target;
   var movieNum = element.getAttribute("movie-id");
+  console.log('--'+movieNum);
 
   
   
@@ -123,6 +149,8 @@ fetch(apiUrl)
 
   modalMovieTitleItm.textContent = data.title;
   modalMovieDescItm.textContent = data.overview;
+  addToFavouritesItm.attr("movie-id",movieNum);
+
   var genreArr = [];
   for(var i = 0;i<data.genres.length;i++){
     genreArr.push(data.genres[i].name);
@@ -133,10 +161,11 @@ fetch(apiUrl)
 
 if(favoriteList.includes(parseInt(movieNum,10))){
   console.log("In Favourites");
-  //addToFavouritesItm.html("Remove from Favourites");
+  addToFavouritesItm.text("Remove from Favourites");
+
 }else{
   console.log("Not In Favourites");
-  //addToFavouritesItm.text("Add to Favourites");
+  addToFavouritesItm.text("Add to Favourites");
 }
   
   
@@ -180,7 +209,6 @@ function buttonSearchFavourites(event) {
       var cardImg = document.createElement("img");
       cardImg.setAttribute('src', posterPath);
       cardImg.setAttribute('movie-id', data.id);
-      addToFavouritesItm.attr("movie-id",data.id);
 
 
       cardFig.appendChild(cardImg);
@@ -246,7 +274,7 @@ init();
 searchNewReleaseList.on('click', buttonClickNewRelease);
 searchPopularList.on('click', event =>  buttonClickPopular(event, 1));
 searchTopRatedList.on('click', event => buttonClickTopRated(event, 1));
-searchList.on('click', event => buttonSearch(event, "minion"));
+searchList.on('submit', event => buttonSearch(event, $( "#searchBar" ).val()));
 favouritesList.on('click', buttonSearchFavourites);
 mainScreenDOMJQ.on('click', buttonOpenModal);
 
