@@ -39,6 +39,11 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
+.fa-heart:before {
+    font-size: xxx-large;
+    color: black;
+}
+
 #searchBar{
     margin-top: 5px;
     position: absolute;
@@ -46,6 +51,11 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 200px;
 }
 
-body.modal-open {
+#modalMovieGenreSpan, #modalMoviePopSpan{
+    font-weight: bold;
+}
+
+body.modal-js-example.modal.is-active {
     overflow: hidden;
+    position: fixed;
 }
