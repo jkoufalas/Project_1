@@ -7,6 +7,9 @@ var searchPopularList = $('#Popular');
 var searchTopRatedList = $('#TopRated');
 var searchList = $('#search');
 var favouritesList = $('#favourites');
+var openMovieModal = document.querySelector("#ex1");
+var bodyLoc = document.querySelector("body");
+
 
 
 
@@ -31,7 +34,6 @@ function buttonClickNewRelease(event) {
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
     displayMovieList(data);
   });
 };
@@ -63,13 +65,11 @@ fetch(apiUrl)
   return response.json();
 })
 .then(function (data) {
-  console.log(data);
   displayMovieList(data);
 });
 };
 
 function buttonSearch(event, title) {
-  console.log("data");
 
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var pageNum = 1;
@@ -80,13 +80,35 @@ fetch(apiUrl)
   return response.json();
 })
 .then(function (data) {
-  console.log(data);
   displayMovieList(data);
 });
 };
 
+function buttonOpenModal(event) {
+  var element = event.target;
+  var movieNum = element.getAttribute("movie-id");
+  console.log("button Pressed - "+movieNum);
+
+  openMovieModal.setAttribute("style", "display: inline-block");
+  bodyLoc.setAttribute("style", "display: inline-block; overflow: hidden");
+  /*
+  var appID = 'edae2dbf4933f27205a897a516b34101';
+  var pageNum = 1;
+  var apiUrl = 'https://api.themoviedb.org/3/search/movie?api_key='+ appID + '&language=en-US&page='+ pageNum + '&query=' + title;
+
+fetch(apiUrl)
+.then(function (response) {
+  return response.json();
+})
+.then(function (data) {
+  displayMovieList(data);
+});
+*/
+};
+
 function buttonSearchFavourites(event) {
   mainScreenDOMJQ.empty();
+
   for( var i = 0 ; i < favoriteList.length; i++){
     var appID = 'edae2dbf4933f27205a897a516b34101';
     var apiUrl = 'https://api.themoviedb.org/3/movie/' + favoriteList[i] + '?api_key='+ appID + '&language=en-US';
@@ -95,14 +117,12 @@ function buttonSearchFavourites(event) {
     .then(function (response) {
       return response.json();
     })
-    .then(function (data) {
-      console.log(data);
-
+    .then(function (data) {    
+      
       var posterPath = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
  
       var cardLayer = document.createElement("div");
       cardLayer.classList.add('column','is-one-quarter-desktop','is-half-tablet');
-      cardLayer.setAttribute('movie-id', data.id);
 
       var cardLayerInner = document.createElement("div");
       cardLayerInner.classList.add('card');
@@ -118,6 +138,8 @@ function buttonSearchFavourites(event) {
 
       var cardImg = document.createElement("img");
       cardImg.setAttribute('src', posterPath);
+      cardImg.setAttribute('movie-id', data.id);
+
 
       cardFig.appendChild(cardImg);
       cardImage.appendChild(cardFig);
@@ -148,7 +170,6 @@ var displayMovieList = function (data){
  
         var cardLayer = document.createElement("div");
         cardLayer.classList.add('column','is-one-quarter-desktop','is-half-tablet');
-        cardLayer.setAttribute('movie-id', data.id);
 
         var cardLayerInner = document.createElement("div");
         cardLayerInner.classList.add('card');
@@ -164,6 +185,7 @@ var displayMovieList = function (data){
 
         var cardImg = document.createElement("img");
         cardImg.setAttribute('src', posterPath);
+        cardImg.setAttribute('movie-id', data.results[i].id);
 
         cardFig.appendChild(cardImg);
         cardImage.appendChild(cardFig);
@@ -182,4 +204,5 @@ searchNewReleaseList.on('click', buttonClickNewRelease);
 searchPopularList.on('click', event =>  buttonClickPopular(event, 1));
 searchTopRatedList.on('click', event => buttonClickTopRated(event, 1));
 searchList.on('click', event => buttonSearch(event, "minion"));
-favouritesList.on('click', buttonSearchFavourites)
+favouritesList.on('click', buttonSearchFavourites);
+mainScreenDOMJQ.on('click', buttonOpenModal);
