@@ -12,6 +12,18 @@ var paginationItm = document.querySelector("#pagination");
 var paginationItmJQ = $('#pagination');
 
 
+
+
+var modalMovieImageItm = document.querySelector("#modalMovieImage");
+var modalMovieTitleItm = document.querySelector("#modalMoviesTitle");
+var modalMovieDescItm = document.querySelector("#modalMovieDesc");
+var modalMovieGenreItm = document.querySelector("#modalMovieGenre");
+var modalMoviePopItm = document.querySelector("#modalMoviePop");
+var pageTitleItm = document.querySelector("#pageTitle");
+var addToFavouritesItm = $('#addToFavourites');
+var favoriteList;
+var localStorageHistory = [];
+
 document.addEventListener('DOMContentLoaded', () => {
   let bodyElement = document.querySelector("body")
   // Functions to open and close a modal
