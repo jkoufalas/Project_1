@@ -8,6 +8,9 @@ var searchTopRatedList = $('#TopRated');
 var searchList = $('#search-form');
 var favouritesList = $('#favourites');
 var openMovieModal = $('#ex1');
+var paginationItm = document.querySelector("#pagination");
+var paginationItmJQ = $('#pagination');
+
 
 document.addEventListener('DOMContentLoaded', () => {
   let bodyElement = document.querySelector("body")
@@ -70,9 +73,16 @@ var modalMovieDescItm = document.querySelector("#modalMovieDesc");
 var modalMovieGenreItm = document.querySelector("#modalMovieGenre");
 var modalMoviePopItm = document.querySelector("#modalMoviePop");
 var pageTitleItm = document.querySelector("#pageTitle");
-var addToFavouritesItm = $('#addToFavourites');
+var paginationTitleItm = document.querySelector("#paginationTitle");
+
+var contentContainerItm = document.querySelector("#contentContainer");
+
+var addToFavouritesItm = $('#modalFavorites');
 var favoriteList;
 var localStorageHistory = [];
+var currentPage;
+var currentPageNum;
+var searchTitle;
 
 
 function init() {
@@ -83,9 +93,11 @@ function init() {
   }
 };
 
-function buttonClickNewRelease(event) {
+function buttonClickNewRelease(event, pageNum) {
+  currentPageNum = pageNum;
+  currentPage = "New Release";
   var appID = 'edae2dbf4933f27205a897a516b34101';
-  var apiUrl = 'https://api.themoviedb.org/3/movie/now_playing?api_key=' + appID;
+  var apiUrl = 'https://api.themoviedb.org/3/movie/now_playing?api_key=' + appID+ '&language=en-US&page='+currentPageNum;
 
   fetch(apiUrl)
   .then(function (response) {
@@ -98,21 +110,55 @@ function buttonClickNewRelease(event) {
 };
 
 function buttonClickPopular(event, pageNum) {
+  currentPageNum = pageNum;
+  currentPage = "Popular";
+  console.log('+++++++'+currentPageNum);
+
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var pageNum = 1;
-  var apiUrl = 'https://api.themoviedb.org/3/movie/popular?api_key='+ appID + '&language=en-US&page='+ pageNum;
+  var apiUrl = 'https://api.themoviedb.org/3/movie/popular?api_key='+ appID + '&language=en-US&page='+ currentPageNum;
   
 fetch(apiUrl)
 .then(function (response) {
   return response.json();
 })
 .then(function (data) {
+  console.log(data);
   displayMovieList(data);
   pageTitleItm.textContent = "Popular Movies";
 });
 };
 
+function buttonPagination(event) {
+  var element = event.target;
+  var pageNum = element.getAttribute("page");
+  console.log('page num' + pageNum);
+  console.log('currentPageNum' + currentPageNum);
+  console.log('currentPage'+ currentPage);
+
+  if(parseInt(pageNum,10) === currentPageNum){
+    return;
+  }
+  
+  if(currentPage === 'Popular'){
+    buttonClickPopular(event, parseInt(pageNum,10));
+  }else if(currentPage === 'Top Rated'){
+    buttonClickTopRated(event, parseInt(pageNum,10));
+  }else if(currentPage === 'Search'){
+    buttonSearch(event, searchTitle, parseInt(pageNum,10));
+  }else if(currentPage === 'New Release'){
+    console.log('Got Here ---');
+    buttonClickNewRelease(event, parseInt(pageNum,10));
+  }
+
+  
+
+};
+
 function buttonClickTopRated(event, pageNum) {
+  currentPageNum = pageNum;
+  currentPage = "Top Rated";
+
   var appID = 'edae2dbf4933f27205a897a516b34101';
   //var pageNum = 1;
   var apiUrl = 'https://api.themoviedb.org/3/movie/top_rated?api_key='+ appID + '&language=en-US&page='+ pageNum;
@@ -145,16 +191,19 @@ function addMovieToFavourites(event) {
 
 };
 
-function buttonSearch(event, title) {
+function buttonSearch(event, title, pageNum) {
+  currentPageNum = pageNum;
+  currentPage = "Search";
 
   if(!title){
     return;
   }
   title = title.trim();
+  searchTitle = title;
 
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var pageNum = 1;
-  var apiUrl = 'https://api.themoviedb.org/3/search/movie?api_key='+ appID + '&language=en-US&page='+ pageNum + '&query=' + title;
+  var apiUrl = 'https://api.themoviedb.org/3/search/movie?api_key='+ appID + '&language=en-US&page='+ currentPageNum + '&query=' + title;
 
 fetch(apiUrl)
 .then(function (response) {
@@ -168,6 +217,7 @@ fetch(apiUrl)
 };
 
 function buttonOpenModal(event) {
+  console.log('got here');
   var element = event.target;
   var movieNum = element.getAttribute("movie-id");
   
@@ -251,12 +301,12 @@ function buttonSearchFavourites(event) {
       cardLayer.appendChild(cardLayerInner);
       mainScreenDOM.appendChild(cardLayer);
       
-
-
-
-
     });
     pageTitleItm.textContent = "Your Favourite Movies";
+    paginationTitleItm.textContent = '';
+
+    paginationItmJQ.empty();
+
 
   }
     
@@ -267,6 +317,7 @@ function buttonSearchFavourites(event) {
 var displayMovieList = function (data){
   mainScreenDOMJQ.empty();
   console.log(data);
+  var totalPages = data.total_pages;
     for( var i = 0 ; i < data.results.length; i++){
         //this skips movies with no posters
         if(data.results[i].poster_path == null){
@@ -303,19 +354,79 @@ var displayMovieList = function (data){
     cardLayerInner.appendChild(cardLink);
     cardLayer.appendChild(cardLayerInner);
     mainScreenDOM.appendChild(cardLayer);
+
+
   }
+
+  var maxPageLimit = 500;
+  paginationItmJQ.empty();
+  if(totalPages > maxPageLimit){
+    totalPages = maxPageLimit;
+  }
+  
+  if(currentPageNum > 4){
+      var pageButtonFirst = document.createElement("a");
+      pageButtonFirst.textContent = "First";
+      pageButtonFirst.setAttribute('page', 1);
+      pageButtonFirst.classList.add('button', 'is-dark');
+      paginationItm.appendChild(pageButtonFirst);
+
+  }
+  // Determine how many buttons to the left of the current page
+  for(var i = currentPageNum - 3; i < currentPageNum ; i++){
+    if(i>0){
+      var pageButtonLeft = document.createElement("a");
+      pageButtonLeft.textContent = i;
+      pageButtonLeft.setAttribute('page', i);
+      pageButtonLeft.classList.add('button', 'is-dark');
+      paginationItm.appendChild(pageButtonLeft);
+    }
+  }
+
+  var pageButtonCurrent = document.createElement("a");
+  pageButtonCurrent.textContent = currentPageNum;
+  pageButtonCurrent.setAttribute('page', 1);
+  pageButtonCurrent.classList.add('button', 'is-light');
+  paginationItm.appendChild(pageButtonCurrent);
+
+  for(var i = currentPageNum +1; i < currentPageNum + 4 ; i++){
+    if(i<=totalPages && i <= maxPageLimit){
+      var pageButtonRight = document.createElement("a");
+      pageButtonRight.textContent = i;
+      pageButtonRight.setAttribute('page', i);
+      pageButtonRight.classList.add('button', 'is-dark');
+      paginationItm.appendChild(pageButtonRight);
+    }
+  }
+  //api call has a max limit of 500 pages even though results from call lists more
+  //otherwise call throws error
+  if(currentPageNum < totalPages - 3){
+    var pageButtonLast = document.createElement("a");
+    pageButtonLast.textContent = "Last";
+      pageButtonLast.setAttribute('page', totalPages);
+    pageButtonLast.classList.add('button', 'is-dark');
+    paginationItm.appendChild(pageButtonLast);
+
+}
+var firstItemNum = (currentPageNum - 1) * 20 + 1;
+var lastItemNum = firstItemNum + data.results.length - 1;
+var totalEntries = data.total_results;
+if(data.total_results>maxPageLimit*20){
+  totalEntries = maxPageLimit*20;
+}
+paginationTitleItm.textContent = 'Showing ' + firstItemNum + ' - ' + lastItemNum + ' of ' + totalEntries + ' items.';
+  
+  
 
 };
 
 init();
 
-
-
-searchNewReleaseList.on('click', buttonClickNewRelease);
+searchNewReleaseList.on('click', event => buttonClickNewRelease(event, 1));
 searchPopularList.on('click', event =>  buttonClickPopular(event, 1));
 searchTopRatedList.on('click', event => buttonClickTopRated(event, 1));
-searchList.on('submit', event => buttonSearch(event, $( "#searchBar" ).val()));
-favouritesList.on('click', buttonSearchFavourites);
+searchList.on('submit', event => buttonSearch(event, $( "#searchBar" ).val(), 1));
+favouritesList.on('click', event => buttonSearchFavourites(event, 1));
 mainScreenDOMJQ.on('click', buttonOpenModal);
-
 addToFavouritesItm.on('click', addMovieToFavourites);
+paginationItm.addEventListener('click', buttonPagination);
