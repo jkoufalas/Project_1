@@ -38,12 +38,12 @@
                 <a class="navbar-item" id="TopRated">
                     Top Rated
                 </a>
-
-                <a class="navbar-item">
+                <a class="navbar-item" id="favourites">
                     Favorites
                 </a>
+                <form id="search-form">
                 <input class="input" id="searchBar" type="text" placeholder="Search for a Movie">
-
+                </form>
 
             </div>
         </div>
@@ -53,12 +53,13 @@
         <div class="columns">
             <div class="column">
                 <figure class="image">
-                    <img id="modalImage" src="https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg" alt="">
+                    <img id="modalMovieImage" src="https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg" alt="">
                 </figure>
                 <footer class="card-footer">
-                    <a id="modalFavorites" class="card-footer-item">
+                    <a class="card-footer-item" id="addToFavourites">
                         Add to Favorites
                     </a>
+                    <i class="fa-solid fa-heart-circle-check"></i>
                 </footer>
             </div>
             <div class="column">
@@ -78,17 +79,15 @@
 
     <section class="section">
         <div class="container">
-            <h1 class="title">
+            <h1 class="title" id="pageTitle">
                 Now Playing
             </h1>
             <div class="sectionDiv">
-
                 <div class="columns is-multiline" id="outLayer">
                     <div class="column is-one-quarter-desktop is-half-tablet">
                         <div class="card">
                             <a href="#">
                                 <div class="card-image">
-
                                     <figure class="image is-3by2">
                                         <img src="https://unsplash.it/300/200/?random&pic=1" alt="">
                                     </figure>
@@ -204,9 +203,6 @@
 
     <button class="modal-close is-large" aria-label="close"></button>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <script src="./assests/js/script.js"></script>
 </body>
 
 
