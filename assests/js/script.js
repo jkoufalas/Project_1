@@ -7,7 +7,7 @@ var searchPopularList = $('#Popular');
 var searchTopRatedList = $('#TopRated');
 var searchList = $('#search-form');
 var favouritesList = $('#favourites');
-var openMovieModal = $('#ex1');
+//var openMovieModal = $('#ex1');
 var paginationItm = document.querySelector("#pagination");
 var paginationItmJQ = $('#pagination');
 
@@ -76,6 +76,32 @@ document.addEventListener('DOMContentLoaded', () => {
       closeAllModals();
     }
   });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+
+        // Get the target from the "data-target" attribute
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+
+        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+
+      });
+    });
+  }
+
 });
 
 
@@ -229,7 +255,7 @@ fetch(apiUrl)
 };
 
 function buttonOpenModal(event) {
-  console.log('got here');
+  console.log('_____---got here');
   var element = event.target;
   var movieNum = element.getAttribute("movie-id");
   
@@ -264,9 +290,6 @@ if(favoriteList.includes(parseInt(movieNum,10))){
   addToFavouritesItm.text("Add to Favourites");
 }
   
-  
-
-  openMovieModal.modal('open');
 });
 
 };
@@ -298,11 +321,16 @@ function buttonSearchFavourites(event) {
       var cardImage = document.createElement("div");
       cardImage.classList.add('card-image');
 
+
       var cardFig = document.createElement("figure");
       cardFig.classList.add('image','is-5by2');
 
       var cardImg = document.createElement("img");
       cardImg.setAttribute('src', posterPath);
+      cardImg.classList.add('js-modal-trigger');
+      cardImg.setAttribute('data-target', "ex1");
+
+
       cardImg.setAttribute('movie-id', data.id);
 
 
@@ -346,26 +374,30 @@ var displayMovieList = function (data){
     var cardLayerInner = document.createElement("div");
     cardLayerInner.classList.add('card');
 
-    var cardLink = document.createElement("a");
-    cardLink.setAttribute('href', "#");
+    //var cardLink = document.createElement("a");
+    //cardLink.setAttribute('href', "#");
 
     var cardImage = document.createElement("div");
     cardImage.classList.add('card-image');
+    
 
-    var cardFig = document.createElement("figure");
+    var cardFig = document.createElement("button");
     cardFig.classList.add('image', 'is-5by2');
+    cardFig.classList.add('js-modal-trigger');
+    cardFig.setAttribute('data-target', "modal-js-example");
 
     var cardImg = document.createElement("img");
     cardImg.setAttribute('src', posterPath);
     cardImg.setAttribute('movie-id', data.results[i].id);
+    
 
 
     cardFig.appendChild(cardImg);
-    cardImage.appendChild(cardFig);
-    cardLink.appendChild(cardImage);
-    cardLayerInner.appendChild(cardLink);
-    cardLayer.appendChild(cardLayerInner);
-    mainScreenDOM.appendChild(cardLayer);
+    //cardImage.appendChild(cardFig);
+    //cardLink.appendChild(cardImage);
+    //cardLayerInner.appendChild(cardImage);
+    //cardLayer.appendChild(cardLayerInner);
+    mainScreenDOM.appendChild(cardFig);
 
 
   }
@@ -439,6 +471,6 @@ searchPopularList.on('click', event =>  buttonClickPopular(event, 1));
 searchTopRatedList.on('click', event => buttonClickTopRated(event, 1));
 searchList.on('submit', event => buttonSearch(event, $( "#searchBar" ).val(), 1));
 favouritesList.on('click', event => buttonSearchFavourites(event, 1));
-mainScreenDOMJQ.on('click', buttonOpenModal);
+//mainScreenDOMJQ.on('click', buttonOpenModal);
 addToFavouritesItm.on('click', addMovieToFavourites);
 paginationItm.addEventListener('click', buttonPagination);
