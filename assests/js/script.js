@@ -18,8 +18,19 @@ var modalMovieGenreItm = document.querySelector("#modalMovieGenre");
 var modalMoviePopItm = document.querySelector("#modalMoviePop");
 var pageTitleItm = document.querySelector("#pageTitle");
 var addToFavouritesItm = $('#addToFavourites');
+var containerSection = document.querySelector(".section")
+var whatIsOnNavItem = document.getElementById("whatIsOnNav");
+var whatIsOnPageContainer = document.querySelector(".whatIsOnPageContainer")
 var favoriteList;
 var localStorageHistory = [];
+
+whatIsOnNavItem.addEventListener("click", ()=>{
+  console.log("hey");
+  whatIsOnPageContainer.style.display = "block"; 
+  containerSection.style.display = "none";
+});
+
+
 
 function test() {
   let bodyElement = document.querySelector("body")
@@ -190,6 +201,9 @@ function init() {
 };
 
 function buttonClickNewRelease(event, pageNum) {
+  containerSection.style.display = "block";
+  whatIsOnPageContainer.style.display = "none"; 
+
   currentPageNum = pageNum;
   currentPage = "New Release";
   var appID = 'edae2dbf4933f27205a897a516b34101';
@@ -206,6 +220,9 @@ function buttonClickNewRelease(event, pageNum) {
 };
 
 function buttonClickPopular(event, pageNum) {
+  containerSection.style.display = "block";
+  whatIsOnPageContainer.style.display = "none"; 
+
   currentPageNum = pageNum;
   currentPage = "Popular";
   console.log('+++++++' + currentPageNum);
@@ -252,6 +269,9 @@ function buttonPagination(event) {
 };
 
 function buttonClickTopRated(event, pageNum) {
+  containerSection.style.display = "block";
+  whatIsOnPageContainer.style.display = "none"; 
+
   currentPageNum = pageNum;
   currentPage = "Top Rated";
 
@@ -288,6 +308,9 @@ function addMovieToFavourites(event) {
 };
 
 function buttonSearch(event, title, pageNum) {
+  containerSection.style.display = "block";
+  whatIsOnPageContainer.style.display = "none"; 
+
   currentPageNum = pageNum;
   currentPage = "Search";
 
@@ -336,8 +359,8 @@ function buttonOpenModal(movieNumArg) {
         genreArr.push(data.genres[i].name);
       }
       var genres = genreArr.join(", ");
-      modalMovieGenreItm.textContent = genres;
-      modalMoviePopItm.textContent = data.vote_average;
+      modalMovieGenreItm.textContent = "Genres: "+ genres;
+      modalMoviePopItm.textContent = "Popularity: "+ data.vote_average;
 
       if (favoriteList.includes(parseInt(movieNum, 10))) {
         addToFavouritesItm.text("Remove from Favourites");
@@ -350,6 +373,9 @@ function buttonOpenModal(movieNumArg) {
 };
 
 function buttonSearchFavourites(event) {
+  containerSection.style.display = "block";
+  whatIsOnPageContainer.style.display = "none"; 
+
   mainScreenDOMJQ.empty();
 
   for (var i = 0; i < favoriteList.length; i++) {
@@ -512,6 +538,13 @@ var displayMovieList = function (data) {
 
   test()
 };
+
+// fucntion to create page content
+const clearContent = (container) => {
+  while (container.hasChildNodes()) {
+      container.removeChild(container.firstChild);
+  }
+}
 
 init();
 
