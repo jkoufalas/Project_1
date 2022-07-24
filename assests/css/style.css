@@ -4,19 +4,47 @@
     padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-size: revert;
 }
 
-.navbar{
+.navbar {
     background-color: bisque;
 }
 
-.sectionDiv{
-    margin-top: 50px;
+.homePageImage{
+    width: 100%;
 }
 
-.columns{
+.homeImageTexts{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.homeSecondTitle {
+    margin: 20px;
+    margin-left: 0px;
+}
+
+.section {
+    padding-top: 20px;
+}
+
+.sectionDiv {
+    margin-top: 40px;
+}
+
+.columns {
     margin-bottom: 200px;
 }
 
@@ -25,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
     right: 5px;
 }
 
-#ex1{
+#ex1 {
     /* display: flex; */
     /* position: absolute; */
     top: 50%;
@@ -44,18 +72,23 @@ h1, h2, h3, h4, h5, h6 {
     color: black;
 }
 
-#searchBar{
+#searchBar {
     margin-top: 5px;
-    position: absolute;
-    right: 50px;
     max-width: 200px;
 }
 
-#modalMovieGenreSpan, #modalMoviePopSpan{
+#modalMovieGenreSpan,
+#modalMoviePopSpan {
     font-weight: bold;
 }
 
 body.modal-js-example.modal.is-active {
     overflow: hidden;
     position: fixed;
+}
+
+@media screen and (min-width: 1024px) {
+    .section {
+        padding-top: 20px;
+    }
 }
