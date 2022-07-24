@@ -24,15 +24,15 @@ var whatIsOnPageContainer = document.querySelector(".whatIsOnPageContainer")
 var favoriteList;
 var localStorageHistory = [];
 
+
+// Home page to display the home page information
 whatIsOnNavItem.addEventListener("click", ()=>{
-  console.log("hey");
   whatIsOnPageContainer.style.display = "block"; 
   containerSection.style.display = "none";
 });
 
-
-
-function test() {
+// The modal functionality function
+function modalFunctionality() {
   let bodyElement = document.querySelector("body")
   // Functions to open and close a modal
   function openModal($el) {
@@ -42,7 +42,6 @@ function test() {
     bodyElement.style.width = "100%";
     bodyElement.style.height = "100%";
   }
-
   function closeModal($el) {
     $el.classList.remove('is-active');
     bodyElement.style.position = "unset";
@@ -64,10 +63,8 @@ function test() {
     const $target = document.getElementById(modal);
 
     $trigger.addEventListener('click', () => {
-      console.log("LOG");
       let movieID = $trigger.children[0].getAttribute("movie-id")
       buttonOpenModal(movieID)
-      // console.log(movieID);
       openModal($target);
     });
   });
@@ -170,10 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
 });
 
-
+//Javascript query selector initialisations
 var modalMovieImageItm = document.querySelector("#modalMovieImage");
 var modalMovieTitleItm = document.querySelector("#modalMoviesTitle");
 var modalMovieDescItm = document.querySelector("#modalMovieDesc");
@@ -181,17 +177,17 @@ var modalMovieGenreItm = document.querySelector("#modalMovieGenre");
 var modalMoviePopItm = document.querySelector("#modalMoviePop");
 var pageTitleItm = document.querySelector("#pageTitle");
 var paginationTitleItm = document.querySelector("#paginationTitle");
-
 var contentContainerItm = document.querySelector("#contentContainer");
-
 var addToFavouritesItm = $('#modalFavorites');
+
+//Page variables
 var favoriteList;
 var localStorageHistory = [];
 var currentPage;
 var currentPageNum;
 var searchTitle;
 
-
+//init by loading local storage
 function init() {
   favoriteList = [];
   var localStorageHistory = JSON.parse(localStorage.getItem("movieFavourites"));
@@ -200,59 +196,71 @@ function init() {
   }
 };
 
+
+//when clicking new release tab
 function buttonClickNewRelease(event, pageNum) {
   containerSection.style.display = "block";
   whatIsOnPageContainer.style.display = "none"; 
 
+  //storing page number in and current search type in page variables for pagination
   currentPageNum = pageNum;
   currentPage = "New Release";
+  //setting up search API call
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var apiUrl = 'https://api.themoviedb.org/3/movie/now_playing?api_key=' + appID + '&language=en-US&page=' + currentPageNum;
 
+  //fetch from source API
   fetch(apiUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
+      //Run display method for DOM creation
       displayMovieList(data);
+      //Set page title
       pageTitleItm.textContent = "New Releases";
     });
 };
 
+//when clicking popular tab
 function buttonClickPopular(event, pageNum) {
   containerSection.style.display = "block";
   whatIsOnPageContainer.style.display = "none"; 
 
+  //storing page number in and current search type in page variables for pagination
   currentPageNum = pageNum;
   currentPage = "Popular";
-  console.log('+++++++' + currentPageNum);
 
+  //setting up search API call
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var pageNum = 1;
   var apiUrl = 'https://api.themoviedb.org/3/movie/popular?api_key=' + appID + '&language=en-US&page=' + currentPageNum;
 
+  //fetch from source API
   fetch(apiUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      //Run display method for DOM creation
       displayMovieList(data);
+      //Set page title
       pageTitleItm.textContent = "Popular Movies";
     });
 };
 
+//if a user clicks a pagination buttons run search on page clicked
 function buttonPagination(event) {
   var element = event.target;
+  //get the page number
   var pageNum = element.getAttribute("page");
-  console.log('page num' + pageNum);
-  console.log('currentPageNum' + currentPageNum);
-  console.log('currentPage' + currentPage);
 
+  //just to check if the page is different
   if (parseInt(pageNum, 10) === currentPageNum) {
     return;
   }
 
+  //test to see which page we are on to send search to of new page to that method
   if (currentPage === 'Popular') {
     buttonClickPopular(event, parseInt(pageNum, 10));
   } else if (currentPage === 'Top Rated') {
@@ -260,25 +268,25 @@ function buttonPagination(event) {
   } else if (currentPage === 'Search') {
     buttonSearch(event, searchTitle, parseInt(pageNum, 10));
   } else if (currentPage === 'New Release') {
-    console.log('Got Here ---');
     buttonClickNewRelease(event, parseInt(pageNum, 10));
   }
 
-
-
 };
 
+//when clicking top rated tab
 function buttonClickTopRated(event, pageNum) {
   containerSection.style.display = "block";
   whatIsOnPageContainer.style.display = "none"; 
 
+  //storing page number in and current search type in page variables for pagination
   currentPageNum = pageNum;
   currentPage = "Top Rated";
 
+  //setting up search API call
   var appID = 'edae2dbf4933f27205a897a516b34101';
-  //var pageNum = 1;
   var apiUrl = 'https://api.themoviedb.org/3/movie/top_rated?api_key=' + appID + '&language=en-US&page=' + pageNum;
 
+  //fetch from source API
   fetch(apiUrl)
     .then(function (response) {
       return response.json();
@@ -289,64 +297,78 @@ function buttonClickTopRated(event, pageNum) {
     });
 };
 
+//when user clicks to add movie to favorites
 function addMovieToFavourites(event) {
+  //get the movie id
   var element = event.target;
   var movieNum = element.getAttribute("movie-id");
 
-
+  //if the movie is not in the favorites list then the user clicked to add
   if (favoriteList.includes(parseInt(movieNum, 10))) {
+    //remove from favoties list
     favoriteList.splice(favoriteList.indexOf(parseInt(movieNum, 10)), 1);
     addToFavouritesItm.text("Add to Favourites");
-
+    localStorage.setItem("movieFavourites", JSON.stringify(favoriteList));
+  //if the movie is in the favorites list then the user clicked to remove
   } else {
     addToFavouritesItm.text("Remove from Favourites");
     favoriteList.push(parseInt(movieNum, 10));
     localStorage.setItem("movieFavourites", JSON.stringify(favoriteList));
-
   }
 
 };
 
+//when the user searches manually in the text field
 function buttonSearch(event, title, pageNum) {
   containerSection.style.display = "block";
   whatIsOnPageContainer.style.display = "none"; 
 
+  //storing page number in and current search type in page variables for pagination
   currentPageNum = pageNum;
   currentPage = "Search";
 
+  //if there is nothing in the title then return and not process
   if (!title) {
     return;
   }
+  //trim title
+
   title = title.trim();
   searchTitle = title;
 
+  //setting up search API call
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var pageNum = 1;
   var apiUrl = 'https://api.themoviedb.org/3/search/movie?api_key=' + appID + '&language=en-US&page=' + currentPageNum + '&query=' + title;
 
+  //fetch from source API
   fetch(apiUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
       displayMovieList(data);
+      //display search information
       pageTitleItm.textContent = "Search for Movies - \"" + title + "\"";
-
     });
 };
 
+//when opening a modal of individual movie, process and update details
 function buttonOpenModal(movieNumArg) {
-  console.log('got here');
   var movieNum = movieNumArg;
 
+  //setting up search API call
   var appID = 'edae2dbf4933f27205a897a516b34101';
   var apiUrl = 'https://api.themoviedb.org/3/movie/' + movieNum + '?api_key=' + appID + '&language=en-US';
 
+  //fetch from source API
   fetch(apiUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
+
+      //update all the details with data
       var posterPath = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
       modalMovieImageItm.setAttribute('src', posterPath);
 
@@ -354,6 +376,7 @@ function buttonOpenModal(movieNumArg) {
       modalMovieDescItm.textContent = data.overview;
       addToFavouritesItm.attr("movie-id", movieNum);
 
+      //genre is a list so loop to get all info added
       var genreArr = [];
       for (var i = 0; i < data.genres.length; i++) {
         genreArr.push(data.genres[i].name);
@@ -362,9 +385,10 @@ function buttonOpenModal(movieNumArg) {
       modalMovieGenreItm.textContent = "Genres: "+ genres;
       modalMoviePopItm.textContent = "Popularity: "+ data.vote_average;
 
+      //if the movie is in the favorites list show link to remove
       if (favoriteList.includes(parseInt(movieNum, 10))) {
         addToFavouritesItm.text("Remove from Favourites");
-
+      //else the movie is not in the favorites list show link to add
       } else {
         addToFavouritesItm.text("Add to Favourites");
       }
@@ -372,73 +396,88 @@ function buttonOpenModal(movieNumArg) {
 
 };
 
+//when the user clicks on the nav to view favorites
 function buttonSearchFavourites(event) {
   containerSection.style.display = "block";
   whatIsOnPageContainer.style.display = "none"; 
 
+  //empty DOM
   mainScreenDOMJQ.empty();
+  paginationItmJQ.empty();
+  paginationTitleItm.textContent = '';
 
-  for (var i = 0; i < favoriteList.length; i++) {
-    var appID = 'edae2dbf4933f27205a897a516b34101';
-    var apiUrl = 'https://api.themoviedb.org/3/movie/' + favoriteList[i] + '?api_key=' + appID + '&language=en-US';
-
-    fetch(apiUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-
-        var posterPath = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
-
-        var cardLayer = document.createElement("div");
-        cardLayer.classList.add('column', 'is-one-quarter-desktop', 'is-half-tablet');
-
-        var cardLayerInner = document.createElement("div");
-        cardLayerInner.classList.add('card');
-
-        var cardLink = document.createElement("a");
-        cardLink.setAttribute('href', "#");
-
-        var cardImage = document.createElement("div");
-        cardImage.classList.add('card-image');
-
-        var cardFig = document.createElement("figure");
-        cardFig.classList.add('js-modal-trigger');
-        cardFig.setAttribute('data-target', "modal-js-example");
-        // cardFig.classList.add('image', 'is-5by2');
-
-        var cardImg = document.createElement("img");
-        cardImg.setAttribute('src', posterPath);
-        cardImg.setAttribute('movie-id', data.id);
-
-
-        cardFig.appendChild(cardImg);
-        cardImage.appendChild(cardFig);
-        cardLink.appendChild(cardImage);
-        cardLayerInner.appendChild(cardLink);
-        cardLayer.appendChild(cardLayerInner);
-        mainScreenDOM.appendChild(cardLayer);
-
-        test()
-      });
-    pageTitleItm.textContent = "Your Favourite Movies";
-    paginationTitleItm.textContent = '';
-    paginationItmJQ.empty();
-
+  let favoriteListItems = favoriteList.length
+  
+  
+  if(favoriteListItems != 0){
+    for (var i = 0; i < favoriteListItems; i++) {
+      var appID = 'edae2dbf4933f27205a897a516b34101';
+      var apiUrl = 'https://api.themoviedb.org/3/movie/' + favoriteList[i] + '?api_key=' + appID + '&language=en-US';
+  
+      fetch(apiUrl)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+  
+          var posterPath = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
+  
+          var cardLayer = document.createElement("div");
+          cardLayer.classList.add('column', 'is-one-quarter-desktop', 'is-half-tablet');
+  
+          var cardLayerInner = document.createElement("div");
+          cardLayerInner.classList.add('card');
+  
+          var cardLink = document.createElement("a");
+          cardLink.setAttribute('href', "#");
+  
+          var cardImage = document.createElement("div");
+          cardImage.classList.add('card-image');
+  
+          var cardFig = document.createElement("figure");
+          cardFig.classList.add('js-modal-trigger');
+          cardFig.setAttribute('data-target', "modal-js-example");
+          // cardFig.classList.add('image', 'is-5by2');
+  
+          var cardImg = document.createElement("img");
+          cardImg.setAttribute('src', posterPath);
+          cardImg.setAttribute('movie-id', data.id);
+  
+  
+          cardFig.appendChild(cardImg);
+          cardImage.appendChild(cardFig);
+          cardLink.appendChild(cardImage);
+          cardLayerInner.appendChild(cardLink);
+          cardLayer.appendChild(cardLayerInner);
+          mainScreenDOM.appendChild(cardLayer);
+  
+          modalFunctionality()
+        });
+      pageTitleItm.textContent = "Your Favourite Movies";
+      paginationTitleItm.textContent = '';
+      paginationItmJQ.empty();
+  
+    }
+  } else {
+    pageTitleItm.textContent = "No favourites to show yet";
   }
 
 }
 
-
+//display search results additions to DOM
 var displayMovieList = function (data) {
+  //clear DOM to renew
   mainScreenDOMJQ.empty();
-  console.log(data);
   var totalPages = data.total_pages;
   for (var i = 0; i < data.results.length; i++) {
     //this skips movies with no posters
     if (data.results[i].poster_path == null) {
       continue;
     }
+
+    //for each result in the API call JSON data array
+
+
     var posterPath = 'https://image.tmdb.org/t/p/w500' + data.results[i].poster_path;
 
     var cardLayer = document.createElement("div");
@@ -459,12 +498,9 @@ var displayMovieList = function (data) {
     var cardFig = document.createElement("figure");
     cardFig.classList.add('js-modal-trigger');
     cardFig.setAttribute('data-target', "modal-js-example");
-    // cardFig.classList.add('image', 'is-5by2');
 
     var cardImg = document.createElement("img");
     cardImg.setAttribute('src', posterPath);
-    // cardImg.classList.add('js-modal-trigger');
-    // cardImg.setAttribute('data-target', "modal-js-example");
     cardImg.setAttribute('movie-id', data.results[i].id);
 
 
@@ -475,15 +511,19 @@ var displayMovieList = function (data) {
     cardLayer.appendChild(cardLayerInner);
     mainScreenDOM.appendChild(cardLayer);
 
+    //this is done for every movie and then added to DOM
 
   }
 
+  //process pagination from here
+  //max page limit 500 as this is a server limitation
   var maxPageLimit = 500;
   paginationItmJQ.empty();
   if (totalPages > maxPageLimit) {
     totalPages = maxPageLimit;
   }
 
+  //print out first page, only if there are more than 4 pages as they will be printed out in the next step
   if (currentPageNum > 4) {
     var pageButtonFirst = document.createElement("a");
     pageButtonFirst.textContent = "First";
@@ -492,7 +532,7 @@ var displayMovieList = function (data) {
     paginationItm.appendChild(pageButtonFirst);
 
   }
-  // Determine how many buttons to the left of the current page
+  //print out 4 pages before current page, but only if they are 4 pages before
   for (var i = currentPageNum - 3; i < currentPageNum; i++) {
     if (i > 0) {
       var pageButtonLeft = document.createElement("a");
@@ -503,12 +543,14 @@ var displayMovieList = function (data) {
     }
   }
 
+  //show current page, but in a different style
   var pageButtonCurrent = document.createElement("a");
   pageButtonCurrent.textContent = currentPageNum;
   pageButtonCurrent.setAttribute('page', 1);
   pageButtonCurrent.classList.add('button', 'is-light');
   paginationItm.appendChild(pageButtonCurrent);
 
+  //print out 4 pages after current page, but only if they are 4 pages before
   for (var i = currentPageNum + 1; i < currentPageNum + 4; i++) {
     if (i <= totalPages && i <= maxPageLimit) {
       var pageButtonRight = document.createElement("a");
@@ -518,8 +560,7 @@ var displayMovieList = function (data) {
       paginationItm.appendChild(pageButtonRight);
     }
   }
-  //api call has a max limit of 500 pages even though results from call lists more
-  //otherwise call throws error
+  //print out last page, only if there are more than 4 pages
   if (currentPageNum < totalPages - 3) {
     var pageButtonLast = document.createElement("a");
     pageButtonLast.textContent = "Last";
@@ -528,6 +569,8 @@ var displayMovieList = function (data) {
     paginationItm.appendChild(pageButtonLast);
 
   }
+
+  //display pagination data in page
   var firstItemNum = (currentPageNum - 1) * 20 + 1;
   var lastItemNum = firstItemNum + data.results.length - 1;
   var totalEntries = data.total_results;
@@ -536,7 +579,7 @@ var displayMovieList = function (data) {
   }
   paginationTitleItm.textContent = 'Showing ' + firstItemNum + ' - ' + lastItemNum + ' of ' + totalEntries + ' items.';
 
-  test()
+  modalFunctionality()
 };
 
 // fucntion to create page content
@@ -548,11 +591,11 @@ const clearContent = (container) => {
 
 init();
 
+//all event listeners
 searchNewReleaseList.on('click', event => buttonClickNewRelease(event, 1));
 searchPopularList.on('click', event => buttonClickPopular(event, 1));
 searchTopRatedList.on('click', event => buttonClickTopRated(event, 1));
 searchList.on('submit', event => buttonSearch(event, $("#searchBar").val(), 1));
 favouritesList.on('click', event => buttonSearchFavourites(event, 1));
-// mainScreenDOMJQ.on('click', buttonOpenModal);
 addToFavouritesItm.on('click', addMovieToFavourites);
 paginationItm.addEventListener('click', buttonPagination);
