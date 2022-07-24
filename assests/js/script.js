@@ -24,15 +24,15 @@ var whatIsOnPageContainer = document.querySelector(".whatIsOnPageContainer")
 var favoriteList;
 var localStorageHistory = [];
 
+
+// Home page to display the home page information
 whatIsOnNavItem.addEventListener("click", ()=>{
-  console.log("hey");
   whatIsOnPageContainer.style.display = "block"; 
   containerSection.style.display = "none";
 });
 
-
-
-function test() {
+// The modal functionality function
+function modalFunctionality() {
   let bodyElement = document.querySelector("body")
   // Functions to open and close a modal
   function openModal($el) {
@@ -42,7 +42,6 @@ function test() {
     bodyElement.style.width = "100%";
     bodyElement.style.height = "100%";
   }
-
   function closeModal($el) {
     $el.classList.remove('is-active');
     bodyElement.style.position = "unset";
@@ -67,7 +66,6 @@ function test() {
       console.log("LOG");
       let movieID = $trigger.children[0].getAttribute("movie-id")
       buttonOpenModal(movieID)
-      // console.log(movieID);
       openModal($target);
     });
   });
@@ -170,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
 });
 
 
@@ -378,53 +375,60 @@ function buttonSearchFavourites(event) {
 
   mainScreenDOMJQ.empty();
 
-  for (var i = 0; i < favoriteList.length; i++) {
-    var appID = 'edae2dbf4933f27205a897a516b34101';
-    var apiUrl = 'https://api.themoviedb.org/3/movie/' + favoriteList[i] + '?api_key=' + appID + '&language=en-US';
-
-    fetch(apiUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-
-        var posterPath = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
-
-        var cardLayer = document.createElement("div");
-        cardLayer.classList.add('column', 'is-one-quarter-desktop', 'is-half-tablet');
-
-        var cardLayerInner = document.createElement("div");
-        cardLayerInner.classList.add('card');
-
-        var cardLink = document.createElement("a");
-        cardLink.setAttribute('href', "#");
-
-        var cardImage = document.createElement("div");
-        cardImage.classList.add('card-image');
-
-        var cardFig = document.createElement("figure");
-        cardFig.classList.add('js-modal-trigger');
-        cardFig.setAttribute('data-target', "modal-js-example");
-        // cardFig.classList.add('image', 'is-5by2');
-
-        var cardImg = document.createElement("img");
-        cardImg.setAttribute('src', posterPath);
-        cardImg.setAttribute('movie-id', data.id);
-
-
-        cardFig.appendChild(cardImg);
-        cardImage.appendChild(cardFig);
-        cardLink.appendChild(cardImage);
-        cardLayerInner.appendChild(cardLink);
-        cardLayer.appendChild(cardLayerInner);
-        mainScreenDOM.appendChild(cardLayer);
-
-        test()
-      });
-    pageTitleItm.textContent = "Your Favourite Movies";
-    paginationTitleItm.textContent = '';
-    paginationItmJQ.empty();
-
+  let favoriteListItems = favoriteList.length
+  
+  
+  if(favoriteListItems != 0){
+    for (var i = 0; i < favoriteListItems; i++) {
+      var appID = 'edae2dbf4933f27205a897a516b34101';
+      var apiUrl = 'https://api.themoviedb.org/3/movie/' + favoriteList[i] + '?api_key=' + appID + '&language=en-US';
+  
+      fetch(apiUrl)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+  
+          var posterPath = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
+  
+          var cardLayer = document.createElement("div");
+          cardLayer.classList.add('column', 'is-one-quarter-desktop', 'is-half-tablet');
+  
+          var cardLayerInner = document.createElement("div");
+          cardLayerInner.classList.add('card');
+  
+          var cardLink = document.createElement("a");
+          cardLink.setAttribute('href', "#");
+  
+          var cardImage = document.createElement("div");
+          cardImage.classList.add('card-image');
+  
+          var cardFig = document.createElement("figure");
+          cardFig.classList.add('js-modal-trigger');
+          cardFig.setAttribute('data-target', "modal-js-example");
+          // cardFig.classList.add('image', 'is-5by2');
+  
+          var cardImg = document.createElement("img");
+          cardImg.setAttribute('src', posterPath);
+          cardImg.setAttribute('movie-id', data.id);
+  
+  
+          cardFig.appendChild(cardImg);
+          cardImage.appendChild(cardFig);
+          cardLink.appendChild(cardImage);
+          cardLayerInner.appendChild(cardLink);
+          cardLayer.appendChild(cardLayerInner);
+          mainScreenDOM.appendChild(cardLayer);
+  
+          modalFunctionality()
+        });
+      pageTitleItm.textContent = "Your Favourite Movies";
+      paginationTitleItm.textContent = '';
+      paginationItmJQ.empty();
+  
+    }
+  } else {
+    pageTitleItm.textContent = "No favourites to show yet";
   }
 
 }
@@ -536,7 +540,7 @@ var displayMovieList = function (data) {
   }
   paginationTitleItm.textContent = 'Showing ' + firstItemNum + ' - ' + lastItemNum + ' of ' + totalEntries + ' items.';
 
-  test()
+  modalFunctionality()
 };
 
 // fucntion to create page content
