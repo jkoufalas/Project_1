@@ -320,8 +320,11 @@ function addMovieToFavourites(event) {
 
 //when the user searches manually in the text field
 function buttonSearch(event, title, pageNum) {
+  event.preventDefault();
+
   containerSection.style.display = "block";
   whatIsOnPageContainer.style.display = "none"; 
+
 
   //storing page number in and current search type in page variables for pagination
   currentPageNum = pageNum;
@@ -410,15 +413,19 @@ function buttonSearchFavourites(event) {
   
   
   if(favoriteListItems != 0){
+
     for (var i = 0; i < favoriteListItems; i++) {
+
       var appID = 'edae2dbf4933f27205a897a516b34101';
       var apiUrl = 'https://api.themoviedb.org/3/movie/' + favoriteList[i] + '?api_key=' + appID + '&language=en-US';
   
       fetch(apiUrl)
         .then(function (response) {
+
           return response.json();
         })
         .then(function (data) {
+
   
           var posterPath = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
   
@@ -453,6 +460,7 @@ function buttonSearchFavourites(event) {
   
           modalFunctionality()
         });
+
       pageTitleItm.textContent = "Your Favourite Movies";
       paginationTitleItm.textContent = '';
       paginationItmJQ.empty();
