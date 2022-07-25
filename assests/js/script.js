@@ -63,6 +63,7 @@ function modalFunctionality() {
     const $target = document.getElementById(modal);
 
     $trigger.addEventListener('click', () => {
+      console.log("LOG");
       let movieID = $trigger.children[0].getAttribute("movie-id")
       buttonOpenModal(movieID)
       openModal($target);
@@ -268,6 +269,7 @@ function buttonPagination(event) {
   } else if (currentPage === 'Search') {
     buttonSearch(event, searchTitle, parseInt(pageNum, 10));
   } else if (currentPage === 'New Release') {
+    console.log('Got Here ---');
     buttonClickNewRelease(event, parseInt(pageNum, 10));
   }
 
@@ -403,8 +405,8 @@ function buttonSearchFavourites(event) {
 
   //empty DOM
   mainScreenDOMJQ.empty();
-  paginationItmJQ.empty();
   paginationTitleItm.textContent = '';
+  paginationItmJQ.empty();
 
   let favoriteListItems = favoriteList.length
   
