@@ -45,10 +45,3 @@ THEN I am presented with movies that match the theme of the search
 
 * Have a quality README (with unique name, description, technologies used, screenshot, and link to deployed application).
 ```
-![Screenshot of deployed application on browser".](./assests/images/Screenshot%202022-07-24%20222634.png)
-
-The URL of the deployed application:
-https://jkoufalas.github.io/WhatsOn/index.html
-
-The URL of the GitHub repository:
-https://github.com/jkoufalas/WhatsOn
