@@ -2,8 +2,6 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-
 }
 
 h1,
@@ -15,65 +13,8 @@ h6 {
     font-size: revert;
 }
 
-#pageTitle{
-    margin-top: 50px;
-}
-
-body{
-    background-color: black;
-}
-
 .navbar {
-    background-color: maroon;
-    color: maroon;
-    font-weight: bold;
-    position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
-}
-
-#homeTitle{
-    margin-top: 50px;
-}
-
-.navbar-item{
-    color: gainsboro;
-    background-color: maroon;
-}
-
-#whatIsOnNav{
-    font-size: large;
-    color: gainsboro;
-    background-color: maroon;
-}
-
-#whatIsOnNav:hover{
-    background-color: maroon;
-    color: white;
-}
-
-#nowShowing:hover{
-    background-color: maroon;
-    color: white;
-}
-
-#Popular:hover{
-    background-color: maroon;
-    color: white;
-}
-
-#TopRated:hover{
-    background-color: maroon;
-    color: white;
-}
-
-#Favourites:hover{
-    background-color: maroon;
-    color: white;
-}
-
-.main{
-    margin-top: 30px;
+    background-color: bisque;
 }
 
 .homePageImage{
@@ -93,7 +34,6 @@ body{
 .homeSecondTitle {
     margin: 20px;
     margin-left: 0px;
-    color: rgb(197, 197, 197);
 }
 
 .section {
@@ -125,8 +65,6 @@ body{
 
 .modal {
     text-align: center;
-    color: black;
-    background-color: white;
 }
 
 .fa-heart:before {
@@ -137,40 +75,6 @@ body{
 #searchBar {
     margin-top: 5px;
     max-width: 200px;
-}
-
-.card{
-    cursor: pointer;
-    border: 3px;
-    border-color: white;
-    border-radius: 1.5px;
-    border-width: 1.5px;
-    border-style: outset;
-    background-color: black;
-}
-
-.card:hover{
-    cursor: pointer;
-    box-shadow: 1px 1px 1px gray;
-    transform: translateY(-0.1rem);
-    transition: transform 150ms;
-    border: 3px;
-    border-color: gray;
-    border-radius: 1.5px;
-    border-width: 1.5px;
-    border-style: outset;
-}
-
-.title{
-    font-weight:bold;
-    color: white;
-    letter-spacing: 2px;
-    margin-top: 30px;
-}
-
-#modalMoviesTitle{
-    font-weight: bolder;
-    letter-spacing: 2px;
 }
 
 #modalMovieGenreSpan,
